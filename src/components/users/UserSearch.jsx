@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import GithubContext from '../../context/github/GithubContext'
 
 const UserSearch = () => {
   const [search, setSearch] = useState('')
 
+  const { users, isPending } = useContext(GithubContext)
   const handleSubmit = (e) => {
     e.preventDefault()
     if (search.trim() === '') {
@@ -33,11 +35,15 @@ const UserSearch = () => {
           </div>
         </form>
       </div>
-      <div>
-        <button className='btn btn-ghost btn-gl' onClick={() => setSearch('')}>
-          Clear
-        </button>
-      </div>
+      {users.length > 0 && (
+        <div>
+          <button
+            className='btn btn-ghost btn-gl'
+            onClick={() => setSearch('')}>
+            Clear
+          </button>
+        </div>
+      )}
     </div>
   )
 }
