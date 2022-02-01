@@ -14,19 +14,22 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(githubReducer, iniialState)
 
-  // get initial users from Github (only for testing)
-  const fetchUsers = async () => {
+  // get search results from Github
+  const searchUsers = async (search) => {
     setLoading()
-    const res = await fetch(`${GITHUB_URL}/users`, {
+    const params = new URLSearchParams({
+      q: search,
+    })
+    const res = await fetch(`${GITHUB_URL}/search/users?${params}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     })
 
-    const data = await res.json()
+    const { items } = await res.json()
     dispatch({
       type: 'GET_USERS',
-      payload: data,
+      payload: items,
     })
   }
 
@@ -37,9 +40,21 @@ export const GithubProvider = ({ children }) => {
     })
   }
 
+  // Clear user State
+  const clearUsers = () => {
+    dispatch({
+      type: 'CLEAR_USERS',
+    })
+  }
+
   return (
     <GithubContext.Provider
-      value={{ users: state.users, isPending: state.isPending, fetchUsers }}>
+      value={{
+        users: state.users,
+        isPending: state.isPending,
+        searchUsers,
+        clearUsers,
+      }}>
       {children}
     </GithubContext.Provider>
   )
