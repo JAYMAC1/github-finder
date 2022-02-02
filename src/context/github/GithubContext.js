@@ -10,6 +10,7 @@ export const GithubProvider = ({ children }) => {
   const iniialState = {
     users: [],
     user: {},
+    repos: [],
     isPending: false,
   }
 
@@ -36,7 +37,6 @@ export const GithubProvider = ({ children }) => {
 
   // get a single user from Github
   const getUser = async (login) => {
-    console.log(`${GITHUB_URL}/users/${login}`)
     setLoading()
 
     const res = await fetch(`${GITHUB_URL}/users/${login}`, {
@@ -51,6 +51,27 @@ export const GithubProvider = ({ children }) => {
       const data = await res.json()
       dispatch({
         type: 'GET_USER',
+        payload: data,
+      })
+    }
+  }
+
+  // get a single user from Github
+  const getRepos = async (login) => {
+    setLoading()
+
+    const res = await fetch(`${GITHUB_URL}/users/${login}/repos`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    })
+
+    if (res.status === 404) {
+      window.location = '/notfound'
+    } else {
+      const data = await res.json()
+      dispatch({
+        type: 'GET_REPOS',
         payload: data,
       })
     }
@@ -76,6 +97,8 @@ export const GithubProvider = ({ children }) => {
         users: state.users,
         isPending: state.isPending,
         user: state.user,
+        repos: state.repos,
+        getRepos,
         getUser,
         searchUsers,
         clearUsers,

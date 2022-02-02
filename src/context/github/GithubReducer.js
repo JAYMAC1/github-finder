@@ -8,6 +8,8 @@ const githubReducer = (state, action) => {
       }
     case 'GET_USER':
       return { ...state, user: action.payload, isPending: false }
+    case 'GET_REPOS':
+      return { ...state, repos: action.payload, isPending: false }
     case 'CLEAR_USERS':
       return { users: [], isPending: false, user: {} }
     case 'SET_LOADING':
