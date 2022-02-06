@@ -1,4 +1,5 @@
 import React from 'react'
+import RepoItem from './RepoItem'
 
 const RepoList = ({ repos }) => {
   return (
@@ -7,7 +8,7 @@ const RepoList = ({ repos }) => {
         <h2 className='text-3xl my-4 font-bold card-title'>Top Repositories</h2>
       </div>
       {repos.map((repo) => (
-        <div key={repo.name}>{repo.name}</div>
+        <RepoItem key={repo.id} repo={repo} />
       ))}
     </div>
   )
