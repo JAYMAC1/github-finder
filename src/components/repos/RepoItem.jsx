@@ -29,7 +29,7 @@ const RepoItem = ({ repo }) => {
             <FaStar className='mr-2' /> {stargazers_count}
           </div>
           <div className='mr-2 badge badge-error badge-lg'>
-            <FaInfo className='mr-2' /> {watchers_count}
+            <FaInfo className='mr-2' /> {open_issues}
           </div>
           <div className='mr-2 badge badge-warning badge-lg'>
             <FaUtensils className='mr-2' /> {forks}
